@@ -10,9 +10,11 @@ const EnvSchema = z.object({
   ADMIN_BOOTSTRAP_SECRET: z.string().min(20).optional(),
 
   JWT_ACCESS_SECRET: z.string().min(20),
+  JWT_REFRESH_SECRET: z.string().min(20),
   JWT_ISSUER: z.string().default("app"),
   JWT_AUDIENCE: z.string().default("app-users"),
   JWT_ACCESS_TTL_SECONDS: z.coerce.number().default(900),
+  JWT_REFRESH_TTL_SECONDS: z.coerce.number().default(60 * 60 * 24 * 7),
 });
 
 export const env = EnvSchema.parse(process.env);

@@ -24,3 +24,11 @@ export const AdminBootstrapSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8).max(200),
 });
+
+export const AdminRefreshSchema = z.object({
+  refreshToken: z.string().min(20),
+});
+
+export const AdminLogoutSchema = z.object({
+  refreshToken: z.string().min(20),
+});

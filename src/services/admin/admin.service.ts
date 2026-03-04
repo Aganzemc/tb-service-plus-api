@@ -14,6 +14,12 @@ export async function findAdminByEmail(email: string) {
   return (data as AdminRow | null) ?? null;
 }
 
+export async function findAdminById(id: string) {
+  const { data, error } = await supabase.from("admins").select("*").eq("id", id).maybeSingle();
+  if (error) throw error;
+  return (data as AdminRow | null) ?? null;
+}
+
 export async function verifyAdminPassword(password: string, passwordHash: string) {
   return bcrypt.compare(password, passwordHash);
 }

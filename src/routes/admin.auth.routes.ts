@@ -4,5 +4,7 @@ import { requireAdmin } from "../services/auth/auth.middleware.js";
 
 export async function adminAuthRoutes(app: FastifyInstance) {
   app.post("/admin/login", AdminAuthController.login);
+  app.post("/admin/refresh", AdminAuthController.refresh);
+  app.post("/admin/logout", AdminAuthController.logout);
   app.get("/admin/me", { preHandler: requireAdmin }, AdminAuthController.me);
 }
