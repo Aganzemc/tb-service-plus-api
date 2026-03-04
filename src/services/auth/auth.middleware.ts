@@ -38,3 +38,12 @@ export async function requireAdmin(req: FastifyRequest, reply: FastifyReply) {
     return reply.code(401).send({ message: "Invalid token" });
   }
 }
+
+export async function requireSuperAdmin(req: FastifyRequest, reply: FastifyReply) {
+  await requireAdmin(req, reply);
+  if (reply.sent) return;
+
+  if (req.admin?.role !== "super_admin") {
+    return reply.code(403).send({ message: "Forbidden" });
+  }
+}

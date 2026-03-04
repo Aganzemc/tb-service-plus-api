@@ -7,6 +7,8 @@ const EnvSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(20).optional(),
   SUPABASE_ANON_KEY: z.string().min(20).optional(),
 
+  ADMIN_BOOTSTRAP_SECRET: z.string().min(20).optional(),
+
   JWT_ACCESS_SECRET: z.string().min(20),
   JWT_ISSUER: z.string().default("app"),
   JWT_AUDIENCE: z.string().default("app-users"),

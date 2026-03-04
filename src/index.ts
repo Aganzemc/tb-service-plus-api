@@ -11,6 +11,7 @@ import { publicSettingsRoutes } from "./routes/public.settings.routes.js";
 import { publicMessagesRoutes } from "./routes/public.messages.routes.js";
 
 import { adminAuthRoutes } from "./routes/admin.auth.routes.js";
+import { adminAdminsRoutes } from "./routes/admin.admins.routes.js";
 import { adminServicesRoutes } from "./routes/admin.services.routes.js";
 import { adminMessagesRoutes } from "./routes/admin.messages.routes.js";
 import { adminSettingsRoutes } from "./routes/admin.settings.routes.js";
@@ -32,6 +33,7 @@ app.register(publicSettingsRoutes, { prefix: "/api" });
 app.register(publicMessagesRoutes, { prefix: "/api" });
 
 app.register(adminAuthRoutes, { prefix: "/api" });
+app.register(adminAdminsRoutes, { prefix: "/api" });
 app.register(adminServicesRoutes, { prefix: "/api" });
 app.register(adminMessagesRoutes, { prefix: "/api" });
 app.register(adminSettingsRoutes, { prefix: "/api" });
