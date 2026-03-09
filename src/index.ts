@@ -16,7 +16,7 @@ import { adminServicesRoutes } from "./routes/admin.services.routes.js";
 import { adminMessagesRoutes } from "./routes/admin.messages.routes.js";
 import { adminSettingsRoutes } from "./routes/admin.settings.routes.js";
 
-const app = Fastify({ logger: true });
+const app = Fastify({ logger: true, bodyLimit: 4 * 1024 * 1024 });
 
 app.register(cors, {
   origin: true,
