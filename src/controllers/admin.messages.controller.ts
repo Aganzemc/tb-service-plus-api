@@ -29,7 +29,7 @@ function toSearchPattern(value: string) {
 }
 
 function applyMessageListFilters(
-  query: ReturnType<typeof supabase.from>,
+  query: any,
   options: {
     filter: "all" | "read" | "unread";
     search: string;

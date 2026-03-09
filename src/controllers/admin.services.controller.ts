@@ -29,7 +29,7 @@ function toSearchPattern(value: string) {
 }
 
 function applyServiceListFilters(
-  query: ReturnType<typeof supabase.from>,
+  query: any,
   options: {
     status: "all" | "active" | "hidden";
     search: string;
