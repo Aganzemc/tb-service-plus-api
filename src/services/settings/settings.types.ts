@@ -16,6 +16,20 @@ export type SiteSettings = Record<SettingsKey, string | null>;
 
 export type SiteSettingsInput = Partial<SiteSettings>;
 
+export type SiteSettingsHistoryValueMap = Partial<Record<SettingsKey, string | null>>;
+
+export type SiteSettingsHistoryEntry = {
+  id: string;
+  changed_at: string;
+  changed_by_admin_id: string | null;
+  changed_by_email: string | null;
+  changed_keys: SettingsKey[];
+  previous_values: SiteSettingsHistoryValueMap;
+  next_values: SiteSettingsHistoryValueMap;
+};
+
+export const SETTINGS_HISTORY_PREFIX = "settings_history::";
+
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   business_address: null,
   contact_phone: null,

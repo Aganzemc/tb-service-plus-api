@@ -42,3 +42,13 @@ export const SettingsUpsertSchema = z
     logo_url: optionalNullableLogo,
   })
   .strict();
+
+const optionalPositiveInteger = z.coerce.number().int().min(1).optional();
+
+export const SettingsHistoryListQuerySchema = z
+  .object({
+    page: optionalPositiveInteger,
+    pageSize: optionalPositiveInteger,
+    all: z.enum(["true", "false", "1", "0"]).optional(),
+  })
+  .strict();
