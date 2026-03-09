@@ -49,7 +49,7 @@ export const AdminSettingsController = {
     try {
       const result = await listSiteSettingsHistory(
         resolvePagination(parsed.data, {
-          defaultPageSize: 6,
+          defaultPageSize: 5,
           maxPageSize: 50,
         }),
       );
