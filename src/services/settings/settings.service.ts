@@ -135,9 +135,15 @@ export async function listSiteSettingsHistory(pagination: PaginationRequest) {
     .select("key,value", { count: "exact" })
     .like("key", `${SETTINGS_HISTORY_PREFIX}%`)
     .order("key", { ascending: false });
+  let currentPage = 1;
+  let currentPageSize = 1;
 
   if (!pagination.all) {
     query = query.range(pagination.from, pagination.to);
+    currentPage = pagination.page;
+    currentPageSize = pagination.pageSize;
+  } else {
+    currentPageSize = Math.max(1, countHistoryRowsEstimate());
   }
 
   const { data, error, count } = await query;
@@ -146,16 +152,20 @@ export async function listSiteSettingsHistory(pagination: PaginationRequest) {
 
   const history = parseHistoryRows(data);
   const total = pagination.all ? history.length : count ?? history.length;
-  const meta = buildPaginationMeta(
-    total,
-    pagination.all ? 1 : pagination.page,
-    pagination.all ? Math.max(1, history.length || 1) : pagination.pageSize,
-  );
+  if (pagination.all) {
+    currentPageSize = Math.max(1, history.length || 1);
+  }
+
+  const meta = buildPaginationMeta(total, currentPage, currentPageSize);
 
   return {
     history,
     ...meta,
   };
+}
+
+function countHistoryRowsEstimate() {
+  return 1;
 }
 
 export async function upsertSiteSettings(
