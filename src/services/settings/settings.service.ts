@@ -21,6 +21,10 @@ function isSettingsKey(value: string): value is SettingsKey {
   return SETTINGS_KEYS.includes(value as SettingsKey);
 }
 
+function isSettingsHistoryKey(value: string) {
+  return value.startsWith(SETTINGS_HISTORY_PREFIX);
+}
+
 function normalizeSettingValue(value: string | null | undefined) {
   if (value == null) return null;
 
@@ -159,6 +163,30 @@ export async function listSiteSettingsHistory(pagination: PaginationRequest) {
   return {
     history,
     ...meta,
+  };
+}
+
+export async function deleteSiteSettingsHistoryEntry(historyId: string) {
+  if (!isSettingsHistoryKey(historyId)) {
+    throw new Error("Invalid history id");
+  }
+
+  const { data, error } = await supabase.from("settings").delete().eq("key", historyId).select("key");
+
+  if (error) throw error;
+
+  return {
+    deleted: data?.length ?? 0,
+  };
+}
+
+export async function clearSiteSettingsHistory() {
+  const { data, error } = await supabase.from("settings").delete().like("key", `${SETTINGS_HISTORY_PREFIX}%`).select("key");
+
+  if (error) throw error;
+
+  return {
+    deleted: data?.length ?? 0,
   };
 }
 
