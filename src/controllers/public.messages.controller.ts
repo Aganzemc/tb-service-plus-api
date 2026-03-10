@@ -1,6 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { supabase } from "../configs/supabase.js";
 import { MessageCreateSchema } from "../services/messages/messages.schemas.js";
+import { createAdminNotificationFromMessage, sendAdminNotificationPush } from "../services/notifications/notifications.service.js";
 
 export const PublicMessagesController = {
   async create(req: FastifyRequest, reply: FastifyReply) {
@@ -23,6 +24,14 @@ export const PublicMessagesController = {
       .single();
 
     if (error) return reply.code(500).send({ message: "DB error", details: error.message });
+
+    try {
+      const notification = await createAdminNotificationFromMessage(data);
+      await sendAdminNotificationPush(notification);
+    } catch (notificationError) {
+      req.log.error({ err: notificationError }, "Failed to create admin notification for new message");
+    }
+
     return reply.code(201).send({ message: data });
   },
 };

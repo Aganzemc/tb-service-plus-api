@@ -11,6 +11,21 @@ function isHttpUrl(value: string) {
 
 const optionalNullableText = (max: number) => z.string().max(max).nullable().optional();
 
+function isValidCoordinate(value: string, min: number, max: number) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed >= min && parsed <= max;
+}
+
+const optionalNullableCoordinate = (min: number, max: number) =>
+  z
+    .string()
+    .max(32)
+    .nullable()
+    .optional()
+    .refine((value) => value == null || value.trim() === "" || isValidCoordinate(value, min, max), {
+      message: `Must be a valid coordinate between ${min} and ${max}`,
+    });
+
 const optionalNullableUrl = z
   .string()
   .max(2000)
@@ -32,6 +47,8 @@ const optionalNullableLogo = z
 export const SettingsUpsertSchema = z
   .object({
     business_address: optionalNullableText(500),
+    business_latitude: optionalNullableCoordinate(-90, 90),
+    business_longitude: optionalNullableCoordinate(-180, 180),
     contact_phone: optionalNullableText(60),
     whatsapp_phone: optionalNullableText(60),
     contact_email: z.string().email().max(320).nullable().optional(),

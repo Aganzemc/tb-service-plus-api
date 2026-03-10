@@ -2,6 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import { supabase } from "../configs/supabase.js";
 import { buildPaginationMeta, resolvePagination } from "../services/common/pagination.js";
 import { MessageUpdateSchema } from "../services/messages/messages.schemas.js";
+import { deleteNotificationsByMessageId, setNotificationsReadStateByMessageId } from "../services/notifications/notifications.service.js";
 
 type MessageListQuery = {
   page?: string;
@@ -130,6 +131,8 @@ export const AdminMessagesController = {
     if (error) return reply.code(500).send({ message: "DB error", details: error.message });
     if (!data) return reply.code(404).send({ message: "Message not found" });
 
+    await setNotificationsReadStateByMessageId(id, parsed.data.is_read);
+
     return reply.send({ message: data });
   },
 
@@ -140,6 +143,8 @@ export const AdminMessagesController = {
 
     if (error) return reply.code(500).send({ message: "DB error", details: error.message });
     if (!data) return reply.code(404).send({ message: "Message not found" });
+
+    await deleteNotificationsByMessageId(id);
 
     return reply.send({ deleted: true });
   },

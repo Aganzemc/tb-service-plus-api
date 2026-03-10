@@ -15,6 +15,10 @@ const EnvSchema = z.object({
   JWT_AUDIENCE: z.string().default("app-users"),
   JWT_ACCESS_TTL_SECONDS: z.coerce.number().default(900),
   JWT_REFRESH_TTL_SECONDS: z.coerce.number().default(60 * 60 * 24 * 7),
+
+  WEB_PUSH_PUBLIC_KEY: z.string().min(20).optional(),
+  WEB_PUSH_PRIVATE_KEY: z.string().min(20).optional(),
+  WEB_PUSH_SUBJECT: z.string().default("mailto:no-reply@tbserviceplus.local"),
 });
 
 export const env = EnvSchema.parse(process.env);

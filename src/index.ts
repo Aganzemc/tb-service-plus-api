@@ -15,6 +15,7 @@ import { adminAdminsRoutes } from "./routes/admin.admins.routes.js";
 import { adminServicesRoutes } from "./routes/admin.services.routes.js";
 import { adminMessagesRoutes } from "./routes/admin.messages.routes.js";
 import { adminSettingsRoutes } from "./routes/admin.settings.routes.js";
+import { adminNotificationsRoutes } from "./routes/admin.notifications.routes.js";
 
 const app = Fastify({ logger: true, bodyLimit: 4 * 1024 * 1024 });
 
@@ -37,6 +38,7 @@ app.register(adminAdminsRoutes, { prefix: "/api" });
 app.register(adminServicesRoutes, { prefix: "/api" });
 app.register(adminMessagesRoutes, { prefix: "/api" });
 app.register(adminSettingsRoutes, { prefix: "/api" });
+app.register(adminNotificationsRoutes, { prefix: "/api" });
 
 // =========================
 // HEALTH / ROOT

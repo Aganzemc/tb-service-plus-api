@@ -1,5 +1,7 @@
 export const SETTINGS_KEYS = [
   "business_address",
+  "business_latitude",
+  "business_longitude",
   "contact_phone",
   "whatsapp_phone",
   "contact_email",
@@ -32,6 +34,8 @@ export const SETTINGS_HISTORY_PREFIX = "settings_history::";
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   business_address: null,
+  business_latitude: null,
+  business_longitude: null,
   contact_phone: null,
   whatsapp_phone: null,
   contact_email: null,
