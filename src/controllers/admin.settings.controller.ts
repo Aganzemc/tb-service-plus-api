@@ -70,9 +70,11 @@ export const AdminSettingsController = {
     }
   },
 
-  async deleteHistoryEntry(req: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+  async deleteHistoryEntry(req: FastifyRequest, reply: FastifyReply) {
     try {
-      const result = await deleteSiteSettingsHistoryEntry(req.params.id);
+      const params = req.params as { id?: string } | undefined;
+      const historyId = typeof params?.id === "string" ? params.id : "";
+      const result = await deleteSiteSettingsHistoryEntry(historyId);
 
       if (result.deleted === 0) {
         return reply.code(404).send({ message: "History entry not found" });
