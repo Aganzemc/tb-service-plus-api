@@ -142,8 +142,6 @@ export async function listSiteSettingsHistory(pagination: PaginationRequest) {
     query = query.range(pagination.from, pagination.to);
     currentPage = pagination.page;
     currentPageSize = pagination.pageSize;
-  } else {
-    currentPageSize = Math.max(1, countHistoryRowsEstimate());
   }
 
   const { data, error, count } = await query;
@@ -162,10 +160,6 @@ export async function listSiteSettingsHistory(pagination: PaginationRequest) {
     history,
     ...meta,
   };
-}
-
-function countHistoryRowsEstimate() {
-  return 1;
 }
 
 export async function upsertSiteSettings(
