@@ -25,6 +25,29 @@ export const AdminBootstrapSchema = z.object({
   password: z.string().min(8).max(200),
 });
 
+export const AdminProfileUpdateSchema = z
+  .object({
+    email: z.string().email().optional(),
+    currentPassword: z.string().min(8).max(200).optional(),
+    newPassword: z.string().min(8).max(200).optional(),
+  })
+  .superRefine((value, ctx) => {
+    if (!value.email && !value.newPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "At least one profile field is required",
+      });
+    }
+
+    if ((value.email || value.newPassword) && !value.currentPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["currentPassword"],
+        message: "Current password is required to update the profile",
+      });
+    }
+  });
+
 export const AdminRefreshSchema = z.object({
   refreshToken: z.string().min(20),
 });
